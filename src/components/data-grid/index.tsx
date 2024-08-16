@@ -16,6 +16,7 @@ interface Props {
   columns: GridColDef[];
   style?: React.CSSProperties;
   disableRowSelectionOnClick?: boolean;
+  checkboxSelection?: boolean;
   paginationMode?: "client" | "server";
   paginationModel?: GridPaginationModel;
   onPaginationModelChange?: (model: GridPaginationModel) => void;
@@ -31,6 +32,7 @@ const GenericDataGrid: React.FC<Props> = ({
   rows,
   columns,
   disableRowSelectionOnClick,
+  checkboxSelection,
   paginationMode = "client",
   paginationModel,
   onPaginationModelChange,
@@ -49,6 +51,7 @@ const GenericDataGrid: React.FC<Props> = ({
             columns={columns}
             disableRowSelectionOnClick={disableRowSelectionOnClick}
             pageSizeOptions={pageSizeOptions}
+            checkboxSelection={checkboxSelection}
             filterModel={filterModel}
             onFilterModelChange={(newFilterModel) =>
               setFilterModel(newFilterModel)

@@ -11,6 +11,7 @@ import {
 import GenericDataGrid from "../components/data-grid";
 import MultiSelect from "../components/selectionType/MultiSelect";
 import { PaginationModel } from "../utils/interface";
+import { useNavigate } from "react-router-dom";
 
 const TrialManagementOverview: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -26,6 +27,7 @@ const TrialManagementOverview: React.FC = () => {
     "products",
     "status",
   ]); 
+  const navigate=useNavigate();
   const [paginationModel, setPaginationModel] = useState<PaginationModel>({
     page: Number(process.env.REACT_APP_INITIAL_PAGE),
     pageSize: Number(process.env.REACT_APP_INITIAL_PAGE_SIZE),
@@ -99,12 +101,16 @@ const TrialManagementOverview: React.FC = () => {
     selectedColumns.includes(col.field)
   );
 
+
+  const filteredRows = rows.filter((row) => {
+    return statusFilter === "All" || row.status === statusFilter;
+  });
+
   return (
     <Box mt={2}>
       <Typography variant="h4">Trial Management Overview</Typography>
 
       <Grid container spacing={2} alignItems="center" mt={2}>
-       
         <Grid item xs={12} sm={6} md={3}>
           <MultiSelect
             label="Select Columns"
@@ -172,6 +178,11 @@ const TrialManagementOverview: React.FC = () => {
               <MenuItem value="Blessed">Blessed</MenuItem>
             </Select>
           </Grid>
+          <Grid item xs={12} sm={6} md={2}>
+            <Button variant="contained" onClick={()=>navigate('/second')}>
+              Navigate
+            </Button>
+          </Grid>
         </Grid>
         <Grid container spacing={2} alignItems="center" mt={2}>
           
@@ -179,7 +190,7 @@ const TrialManagementOverview: React.FC = () => {
 
       <Box mt={2}>
         <GenericDataGrid
-          rows={rows}
+          rows={filteredRows}
           columns={filteredColumns}
           paginationMode="client"
           paginationModel={paginationModel}
